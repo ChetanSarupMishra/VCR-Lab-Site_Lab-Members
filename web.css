@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lab Users</title>
+  <style>
+    body {
+      background: #f7f3ee;
+      margin: 0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      color: #222;
+    }
+    .nav {
+      display: flex;
+      gap: 30px;
+    }
+    .title {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #232323;
+      flex: 1;
+      text-align: center;
+    }
+    .nav a {
+      text-decoration: none;
+      color: #232323;
+      font-weight: 500;
+      font-size: 1.12rem;
+      padding-bottom: 2px;
+      border-bottom: 3px solid transparent;
+      transition: border 0.1s;
+    }
+    .nav a.active {
+      border-bottom: 3px solid #fcd94b;
+      color: #111;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      background: #386347;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      color: white;
+    }
+    .banner {
+      background: url('banner.jpg') center/cover no-repeat;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .header-text {
+      font-size: 2.8em;
+      color: #fff;
+      font-weight: 500;
+      text-shadow: 1px 2px 8px rgba(0,0,0,0.3);
+      margin-top: 40px;
+      position: relative;
+      z-index: 2;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: transparent;
+      padding: 0 20px 20px 20px;
+    }
+    .lab-lead {
+      text-align: center;
+      margin-top: -80px;
+    }
+    .lab-lead-card {
+      display: inline-block;
+      background: #fff;
+      border-radius: 9px;
+      box-shadow: 0 2px 8px #e3ddcf;
+      padding: 24px 30px 16px 30px;
+      margin-bottom: 32px;
+      min-width: 320px;
+      text-align: left;
+    }
+    .lab-lead .user-photo {
+      display: block;
+      margin: 0 auto 8px auto;
+    }
+    .lab-lead .user-photo img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #e7e2d8;
+      box-shadow: 0 0 8px #e2e2e2;
+      display: block;
+    }
+    .lab-lead .name {
+      font-size: 1.1em;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .lab-lead .role {
+      color: #2e57a6;
+      font-size: 1.02em;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .lab-lead .dept {
+      font-size: 0.98em;
+      margin-bottom: 8px;
+    }
+    .lab-lead .contact {
+      font-size: 0.96em;
+      color: #0687ad;
+      margin-bottom: 4px;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 1.7em;
+      font-weight: 700;
+      margin: 35px 0 10px 0;
+      background: #ede9df;
+      border-radius: 6px;
+      padding: 10px;
+      letter-spacing: 1px;
+    }
+    .subsection-title {
+      text-align: center;
+      font-size: 1.25em;
+      font-weight: 600;
+      margin: 22px 0 5px 0;
+      background: #f5f2ea;
+      border-radius: 5px;
+      padding: 6px 0;
+    }
+    .user-list {
+      margin: 0 auto 30px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-width: 800px;
+    }
+    .user-card {
+      background: #fff;
+      border-radius: 9px;
+      box-shadow: 0 2px 5px #ece6d8;
+      padding: 18px 16px 18px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 22px;
+    }
+    .user-photo {
+      width: 90px;
+      height: 90px;
+      min-width: 90px;
+      border-radius: 8px;
+      background: #e7e2d8;
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 8px #e2e2e2;
+      overflow: hidden;
+    }
+.user-photo_2 img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+
+.user-photo_1 img {
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+    .user-photo img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+    .user-details {
+      flex: 1;
+    }
+    .user-details .user-name {
+      font-size: 1.15em;
+      font-weight: 600;
+      margin-bottom: 2px;
+      color: #264a7f;
+    }
+    .user-details .user-role {
+      font-size: 1.06em;
+      color: #555;
+      margin-bottom: 3px;
+    }
+    .user-details .user-desc {
+      font-size: 0.99em;
+      margin-bottom: 4px;
+      color: #444;
+    }
+    .user-details .contact {
+      font-size: 0.97em;
+      color: #0687ad;
+    }
+    /* User Grid for M.Tech, B.Tech */
+    .user-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 19px;
+      margin-bottom: 32px;
+    }
+    .grid-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px #ece6d8;
+      padding: 12px 14px;
+      text-align: center;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .grid-card .user-photo {
+      margin-bottom: 7px;
+      width: 90px;
+      height: 90px;
+      border-radius: 8px;
+      background: #e7e2d8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 0 8px #e2e2e2;
+    }
+    .grid-card .user-photo img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+    .grid-card .user-name {
+      font-weight: 600;
+      color: #194e7b;
+      font-size: 1.07em;
+      margin-bottom: 3px;
+      margin-top: 2px;
+    }
+    .grid-card .user-role, .grid-card .user-area {
+      font-size: 0.97em;
+      color: #4d545c;
+      margin-bottom: 2px;
+    }
+    .grid-card .contact {
+      font-size: 0.96em;
+      color: #0687ad;
+    }
+    .alumni-section {
+      margin-top: 40px;
+      background: #ede9df;
+      border-radius: 7px;
+      padding: 16px 8px;
+    }
+    .alumni-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .alumni-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px #ebe5d5;
+      padding: 10px 12px;
+      text-align: center;
+      min-height: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .alumni-card .user-photo {
+      margin-bottom: 7px;
+      width: 90px;
+      height: 90px;
+      border-radius: 8px;
+      background: #e7e2d8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 0 8px #e2e2e2;
+    }
+    .alumni-card .user-photo img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+    .footer-table {
+      width: 100%;
+      max-width: 700px;
+      margin: 22px auto 13px auto;
+      background: #fff;
+      border-radius: 7px;
+      box-shadow: 0 2px 7px #ece6d8;
+      font-size: 0.97em;
+      padding: 6px 0;
+      border-collapse: collapse;
+    }
+    .footer-table td {
+      padding: 7px 12px;
+      border-bottom: 1px solid #ece6d8;
+    }
+    .footer-table tr:last-child td {
+      border-bottom: none;
+    }
+    .contact-info {
+      margin-top: 19px;
+      text-align: center;
+      font-size: 0.97em;
+      color: #264a7f;
+      background: white;
+      max-width: 500px;
+    }
+  </style>
+</head>
+<body>
+<div class="topbar">
+        <div class="title" align="center" style="color: white">Visual Computing & Robotics Lab, National Institute of Technology, Delhi</div>
+<nav class="nav">
+            <a href="https://chetansarupmishra.github.io/VCR-Lab-Site/"><p style="color: white">Home</p></a>
+            <!--<a href="#" class="active">Research Lab</a>-->
+            <!--<a href="#">Publications</a>-->
+            <a href="#"><p style="color: white">Lab Members</p></a>
+            <!--<a href="#">Activities</a>-->
+            <!--<a href="#">Gallery</a>-->
+            <!--<a href="#" style="font-size:1.2em">&#128269;</a>-->
+        </nav>
+    </div>
+<div class="section-title">Lab Users</div><br><br><br><br><br><br>
+  
+  <div class="container">
+    <!-- LAB LEAD -->
+    <div class="lab-lead">
+      <div class="lab-lead-card">
+<div class="user-photo_1"><center><img src="1.jpg"></center></div><br>
+        <div class="name">Dr. Gautam Kumar</div>
+        <div class="role">Assistant Professor</div>
+        <div class="dept">Department of Computer Science and Engineering, NIT Delhi</div>
+        <div class="contact">Contact: gautam@nitdelhi.ac.in</div>
+      </div>
+    </div>
+
+    <!-- LAB USERS TITLE -->
+    
+
+    <!-- PhD Scholars -->
+    <div class="subsection-title">PhD Research Scholars</div>
+    <div class="user-list">
+      <div class="user-card">
+        <div class="user-photo"><img src="2.png"></img></div>
+        <div class="user-details">
+          <div class="user-name">Monika Srivastava</div>
+          <div class="user-desc">
+            Monika Srivastava is a research scholar with a focus on Cancer Data Classification through the lens of Federated Learning and Deep Learning models. Her work aims to revolutionize biomedical engineering by developing systems that enable secure and efficient sharing of healthcare data across multiple institutions while preserving patient privacy. Specializing in advanced image processing techniques, Monika is dedicated to improving cancer detection and diagnosis. Her research integrates various deep learning frameworks to enhance the accuracy and reliability of health care technologies. Monika’s contributions are crucial in advancing federated learning models that empower the future of personalized medical treatment while ensuring data security.
+          </div>
+          <div class="contact">Contact: monikasrivastava@nitdelhi.ac.in</div>
+        </div>
+      </div>
+      <div class="user-card">
+        <div class="user-photo"><img src="3.jpg"></img></div>
+        <div class="user-details">
+          <div class="user-name">Ravilant Kumar Ninad</div>
+          <div class="user-desc">
+            Ravikant Kumar Nirala is a research scholar in Hyperspectral Remote Sensing. His work centers on creating innovative techniques for hyperspectral data analysis to improve precision in environmental monitoring, agriculture, and land-use classification. By applying machine learning and deep learning approaches, he seeks to enhance the extraction of valuable insights from hyperspectral imagery, even in complex and challenging conditions. Ravikant's research plays a key role in advancing remote sensing technologies, making them more effective and dependable for practical applications.
+          </div>
+          <div class="contact">Contact: ravikant.nirala@nitdelhi.ac.in</div>
+        </div>
+      </div>
+      <div class="user-card">
+        <div class="user-photo"><img src="4.jpg"></img></div>
+        <div class="user-details">
+          <div class="user-name">Vinay Kumar Vats</div>
+          <div class="user-desc">
+            Vinay Kumar Vats is a research scholar in the area of Robotic Assistive Gait Rehabilitation. His work focuses on developing innovative control systems for exoskeleton robots using human motion capture data. By applying advanced image processing, computer vision, and machine learning techniques and aims to enhance the precision and effectiveness of exoskeletons in assisting individuals with gait impairments. His research involves creating a custom feature extraction methodology that enables accurate motion analysis, contributing significantly to the development of intelligent robotic rehabilitation systems
+          </div>
+          <div class="contact">Contact: vinay.vats@nitdelhi.ac.in</div>
+        </div>
+      </div>
+      <!-- Add more PhD scholars similarly -->
+
+    <!-- Continue PhD list -->
+    <div class="user-card">
+        <div class="user-photo"><img src="5.jpg"></img></div>
+        <div class="user-details">
+          <div class="user-name">Tushar Mehrotra</div>
+          <div class="user-desc">
+           Tushar Mehrotra is a research scholar at the National Institute of Technology (NIT) Delhi, with a specialization in Natural Language Processing (NLP) and recommendation systems. Their research focuses on developing advanced models for emotion detection and sentiment analysis, capable of interpreting textual and emoji-based data. By integrating sophisticated NLP techniques and large language models, Tushar aims to enhance both recommendation and conversational systems through multimodal data analysis. Additionally, their work includes creating demographic-driven personalization models to tailor predictions based on user demographics and age-related information. This holistic approach strives to improve the accuracy, relevance, and user experience of recommendation systems across diverse applications.
+          </div>
+          <div class="contact">Contact: tushar.mehrotra@nitdelhi.ac.in</div>
+        </div>
+      
+      <!-- Add more PhD scholars similarly -->
+    </div>
+<div class="user-card">
+      <div class="user-card">
+        <div class="user-photo"><img src="6.jpg"></img></div>
+        <div class="user-details">
+          <div class="user-name">Rajneesh Kumar</div>
+          <div class="user-desc">
+           Rajneesh Kumar is a research scholar dedicated to the field of proteomics. His research focuses on studying proteins with the help of AI technology, which includes protein function prediction, protein-protein interactions, protein sequences, and protein structures. He aims to create AI models that can predict the function of proteins by analyzing the protein sequences. This can help researchers understand the workings of proteins and help develop medicine and cures for diseases due to protein misfolding.
+          </div>
+          <div class="contact">Contact: rajneesh@nitdelhi.ac.in</div></div>
+        </div>
+      </div>
+      <div class="user-card">
+        <div class="user-photo"><img src="7.jpg"></img></div>
+        <div class="user-details">
+          <div class="user-name">Abadhan S. Sabyasachi</div>
+          <div class="user-desc">
+           Abadhan S. Sabyasachi is a research scholar focused on developing Cost- and Energy-Efficient Routing protocols for Internet of Things (IoT)- based Smart Agriculture Systems. Smart agriculture systems have emerged as a crucial approach to improve the efficiency and sustainability of agriculture. These systems leverage cutting-edge technology to monitor, manage, and optimize various aspects of agricultural operations. Soft computing techniques, such as artificial neural networks, fuzzy logic, and genetic algorithms, offer significant potential for enhancing smart agriculture systems. His research aims to investigate the application of soft computing techniques in smart agriculture and their impact on agricultural productivity, resource management, and environmental sustainability.
+          </div>
+          <div class="contact">Contact: abadhan@nitdelhi.ac.in</div>
+        </div>
+      </div>
+ <div class="user-card">
+<div class="user-photo"><img src="8.jpg"></img></div>
+      <div class="user-details">
+          <div class="user-name">Chandan Kumar</div>
+          <div class="user-desc">
+           Chandan Kumar is a research scholar dedicated to the field of computer vision. His research work focuses on the classification of culinary vegetables using deep learning. He also works in the biometric security field, where he focuses on the development of surveillance systems based on the periocular region.
+          </div>
+          <div class="contact">Contact: chandankr@nitdelhi.ac.in</div>
+        </div>
+      </div>
+ <div class="user-card">
+<div class="user-photo"><img src="9.jpg"></img></div>
+      <div class="user-details">
+          <div class="user-name">Siroj Kumar Singh</div>
+          <div class="user-desc">
+           Siroj Kumar Singh is a Ph.D. scholar at NIT Delhi, specializing in disaster management. His research focuses on enhancing disaster preparedness, response, and resilience through innovative strategies, contributing to disaster risk reduction and sustainable development.
+          </div>
+          <div class="contact">Contact: siroj@nitdelhi.ac.in</div>
+        </div>
+      </div></div>
+
+    <!-- M.Tech Research Scholars -->
+    <div class="section-title">M.Tech Research Scholars</div>
+    <div class="subsection-title">Session 2023-2025</div>
+    <div class="user-grid">
+      <div class="grid-card">
+<div class="user-photo"><img src="10.jpg"></img></div>
+        <div class="user-name">Krishna K Agrawal</div>
+        <div class="user-role">
+Krishna K Agrawal is a MTech Scholar whose research focuses on healthcare and bioinformatics. He aims to create models that can detect diseases in early stages from medical images. He is also specialized in cybersecurity and digital forensics.</div>
+        <!--<div class="user-area">Prediction models for healthcare data analytics and visualization.</div>-->
+        <div class="contact">Contact: krishkagrawal2002@gmail.com</div>
+      </div>
+      <div class="grid-card">
+<div class="user-photo"><img src="11.jpg"></img></div>
+        <div class="user-name">Subhashish Sarker</div>
+        <div class="user-role">Subhasish Sarkar is a MTech Scholar whose research focuses on computer vision. He aims to create models that can  accurately detect disorders in plants and help farmers understand and mitigate this disorders, resulting in higher produce of the yield.  </div>
+        <!--<div class="user-area">Analysis of agricultural images and disease diagnostics.</div>-->
+        <div class="contact">Contact: sarkarsubhasish22@gmail.com</div>
+      </div>
+      <!-- ... More M.Tech research scholars ... -->
+      <div class="grid-card">
+<div class="user-photo"><img src="12.jpg"></img></div>
+        <div class="user-name">Aditi Jha</div>
+        <div class="user-role">Aditi Jha is a MTech Scholar whose research The Siamese Neural Network with Multi-Head Attention is designed for cattle identification using muzzle patterns.</div>
+        <!--<div class="user-area">Multimodal feature classification.</div>-->
+        <div class="contact">Contact: aditij674@gmail.com</div>
+      </div>
+      <div class="grid-card">
+<div class="user-photo"><img src="13.jpg"></img></div>
+        <div class="user-name">Govind Mandi</div>
+        <div class="user-role">Govinda Mandal is a MTech Scholar whose research focuses on Deepfake Video Detection using Vision Transformers and MesoNet, addressing challenges in identifying manipulated content with high accuracy. </div>
+        <!--<div class="user-area">Vision Transformers for cattle patterns.</div>-->
+        <div class="contact">Contact: govinda4india@gmail.com</div>
+      </div>
+ <div class="grid-card">
+<div class="user-photo"><img src="15.jpg"></img></div>
+        <div class="user-name">Shashank Kumar Soni</div>
+        <div class="user-role">Shashank Kumar Soni  is a MTech Scholar  Specializing in Precision Farming and Precision Agriculture, with a research focus on Crop Recommendation and Person Re-identification.</div>
+        <div class="contact">Contact: shashanksoni192@gmail.com</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="45.jpg"></img></div>
+        <div class="user-name">Vaibhav Verma</div>
+        <div class="user-role">Vaibhav Verma is a MTech Scholar whose research focuses on  Protein function prediction using Secondary Structures.</div>
+        <div class="contact">Contact: vaibhavvermasona@gmail.com</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="17.png"></img></div>
+        <div class="user-name">Mansi Rajput</div>
+        <div class="user-role">Mansi Rajput is a M.Tech research scholar whose research focuses on detecting AI generated text using Large Language models.</div>
+        <div class="contact">Contact: mansirajput2021@gmail.com</div>
+      </div>
+
+      <!-- ... Add all other M.Tech scholars . . .-->
+    
+<div class="grid-card">
+<div class="user-photo"><img src="14.jpg"></img></div>
+        <div class="user-name">Kajal Tulshyan</div>
+        <div class="user-role">Kajal Tulshyan  is a MTech Scholar whose research focuses on Deep learning approach for deepfake detection on images.</div>
+        <!--<div class="user-area">Vision Transformers for cattle patterns.</div>-->
+        <div class="contact">Contact: kajalbansal386@gmail.com</div>
+      </div>
+      <!-- ... Add all other M.Tech scholars . . .-->
+    </div></div>
+
+
+    <!-- Add next session and more students similarly -->
+    <div class="subsection-title">Session 2024-2026</div>
+    <div class="user-grid">
+      <div class="grid-card">
+<div class="user-photo"><img src="18.png"></img></div>
+        <div class="user-name">Aiyesha Rukhsar</div>
+        <div class="user-role">Roll No: 242210002</div>
+        <div class="user-area">Area of Research:  XAI In Healthcare</div>
+      </div>
+      <div class="grid-card">
+<div class="user-photo"><img src="19.png"></img></div>
+        <div class="user-name">Ashish Dass</div>
+        <div class="user-role">Roll No: 242210007</div>
+        <div class="user-area">Area of Research: Medical Image Analysis</div>
+      </div>
+      <!-- Add more cards as per screenshot ... -->
+<div class="grid-card">
+<div class="user-photo"><img src="20.png"></img></div>
+        <div class="user-name">Nareen Sai Budidi</div>
+        <div class="user-role">Roll No: 242210009</div>
+        <div class="user-area">Area of Research: Natural language processing</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="21.png"></img></div>
+        <div class="user-name">Pooja Yadav</div>
+        <div class="user-role">Roll No: 242211015</div>
+        <div class="user-area">Area of Research: Medical Image Analysis</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="22.png"></img></div>
+        <div class="user-name">Vaishnavi Nayak</div>
+        <div class="user-role">Roll No: 242210025</div>
+        <div class="user-area">Area of Research: Person Re-Identification</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="23.png"></img></div>
+        <div class="user-name">Manish Singh</div>
+        <div class="user-role">Roll No: 242210015</div>
+        <div class="user-area">Area of Research: Remote Sensing</div>
+      </div>
+    </div>
+
+    <!-- B.Tech Research Scholars -->
+    <div class="section-title">B.Tech Research Scholars</div>
+<div class="subsection-title">Session 2024-28</div>
+    <div class="user-grid">
+      <div class="grid-card">
+<div class="user-photo_2"><img src="New Pic_Chetan Sarup Mishra.jpg"></img></div>
+        <div class="user-name">Chetan Sarup Mishra</div>
+        <div class="user-role"></div>
+        <div class="contact">241210030@nitdelhi.ac.in</div>
+      </div>
+</div>
+
+    <div class="subsection-title">Session 2022-26</div>
+    <div class="user-grid">
+      <div class="grid-card">
+<div class="user-photo"><img src="24.jpg"></img></div>
+        <div class="user-name">Aditya Sharma</div>
+        <div class="user-role"></div>
+        <div class="contact">221210006@nitdelhi.ac.in</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="25.jpg"></img></div>
+        <div class="user-name">Abhishek Tripathi</div>
+        <div class="user-role"></div>
+        <div class="contact">221210006@nitdelhi.ac.in</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="27.jpeg"></img></div>
+        <div class="user-name">Jugnu Gupta</div>
+        <div class="user-role"></div>
+        <div class="contact">221210054@nitdelhi.ac.in</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="43.png"></img></div>
+        <div class="user-name">Raju Kumar</div>
+        <div class="user-role"></div>
+        <div class="contact">221210085@nitdelhi.ac.in</div>
+      </div>
+      <div class="grid-card">
+<div class="user-photo"><img src="44.jpg"></img></div>
+        <div class="user-name">Kshitij Singh</div>
+        <div class="user-role"></div>
+        <div class="contact">221210061@nitdelhi.ac.in</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="29.jpg"></img></div>
+        <div class="user-name">Aditya S Ray</div>
+        <div class="user-role"></div>
+        <div class="contact">221210010@nitdelhi.ac.in</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="32.jpg"></img></div>
+        <div class="user-name">Himanshu Rai</div>
+        <div class="user-role"></div>
+        <div class="contact">221210049@nitdelhi.ac.in</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="31.jpg"></img></div>
+        <div class="user-name">Aditya Shaurya Singh Negi</div>
+        <div class="user-role"></div>
+        <div class="contact">221210012@nitdelhi.ac.in</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="34.jpg"></img></div>
+        <div class="user-name">Ritik Kumar</div>
+        <div class="user-role"></div>
+        <div class="contact">221210087@nitdelhi.ac.in</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="35.jpg"></img></div>
+        <div class="user-name">Giriraj</div>
+        <div class="user-role"></div>
+        <div class="contact">221210041@nitdelhi.ac.in</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="36.jpg"></img></div>
+        <div class="user-name">Kartik Mittal</div>
+        <div class="user-role"></div>
+        <div class="contact">221210056@nitdelhi.ac.in</div>
+      </div>
+<div class="grid-card">
+<div class="user-photo"><img src="41.jpg"></img></div>
+        <div class="user-name">Satwik Anand</div>
+        <div class="user-role"></div>
+        <div class="contact">221210096@nitdelhi.ac.in</div>
+      </div></div>
+      
+    <!-- Alumni Section -->
+    <div class="alumni-section">
+      <div class="section-title">Alumni</div>
+      <div align="center"><strong>Batch of B.Tech 2021-24</strong></div>
+      <div class="alumni-list">
+        <div class="grid-card">
+<div class="user-photo"><img src="37.jpeg"></img></div>
+          <div class="user-name">Sourabh Garg</div>
+          <div class="user-role">Software Engineer, Cvent</div>
+          <div class="contact">garg13146@gmail.com</div>
+        </div>
+        <div class="grid-card">
+<div class="user-photo"><img src="38.jpeg"></img></div>
+          <div class="user-name">Manas Khantal</div>
+          <div class="user-role">Software Engineer, MakeMyTrip</div>
+          <div class="contact">khantalmanas@gmail.com</div>
+        </div>
+        <!-- ... Add more alumni cards ... -->
+<div class="grid-card">
+<div class="user-photo"><img src="40.jpg"></img></div>
+          <div class="user-name">Abhishek Tripathi</div>
+          <div class="user-role"></div>
+          <div class="contact">221210006@nitdelhi.ac.in</div>
+        </div>
+<div class="grid-card">
+<div class="user-photo"><img src="41.jpg"></img></div>
+          <div class="user-name">Satwik Anand </div>
+          <div class="user-role"></div>
+          <div class="contact">221210096@nitdelhi.ac.in</div>
+        </div>
+<div class="grid-card">
+<div class="user-photo"><img src="42.jpeg"></img></div>
+          <div class="user-name">Jugnu Gupta</div>
+          <div class="user-role"></div>
+          <div class="contact">221210054@nitdelhi.ac.in</div>
+        </div>
+<div class="grid-card">
+<div class="user-photo"><img src="43.png"></img></div>
+          <div class="user-name">Raju Kumar</div>
+          <div class="user-role"></div>
+          <div class="contact">221210085@nitdelhi.ac.in</div>
+        </div>
+<div class="grid-card">
+<div class="user-photo"><img src="44.jpg"></img></div>
+          <div class="user-name">Kshitij Singh</div>
+          <div class="user-role"></div>
+          <div class="contact">221210061@nitdelhi.ac.in</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alumni Table -->
+    <table class="footer-table">
+ <tr>
+        <td><strong>Student Name</strong></td>
+        <td><strong>Company</strong></td>
+        <td><strong>Role</strong></td>
+      </tr>
+
+      <tr>
+        <td>Moulik Sharma</td>
+        <td>Tata 1MG</td>
+        <td>SDE Intern</td>
+      </tr>
+      <tr>
+        <td>Satya Prakash Mahour</td>
+        <td>Swiggy</td>
+        <td>Data Analyst Intern</td>
+      </tr>
+      <tr>
+        <td>Shubham Anand Jaiswal</td>
+        <td>Cimpress India</td>
+        <td>SE Intern</td>
+      </tr>
+<tr>
+        <td>Rahul Kumar Mishra</td>
+        <td>BlackRock</td>
+        <td>Data and Software Engg. Intern</td>
+      </tr>
+<tr>
+        <td>Sonali Kashyap</td>
+        <td>Siemens Healthiners</td>
+        <td>Software Engineer Intern</td>
+      </tr>
+<tr>
+        <td>Harshit</td>
+        <td>cvent</td>
+        <td>SDE</td>
+      </tr>
+<tr>
+        <td>Kanha Madan</td>
+        <td>BlackRock</td>
+        <td>SDE</td>
+      </tr>
+<tr>
+        <td>Kunal Singh Rajput</td>
+        <td>Midas hygiene</td>
+        <td>Business associate</td>
+      </tr>
+      <!-- Add more alumni rows as needed -->
+    </table><center>
+    <div class="contact-info">
+      Office Room No: 221, 2nd Floor, Admin Block, IITD<br>
+      Mobile: +91-8292556170<br>
+      Email: gautam@nitdelhi.ac.in
+    </div>
+    <div class="contact-info">
+      For any inquiries, please contact:<br>
+      Dept. of CSE, IIT Delhi<br>
+      Phone: +1-234-567-8910<br>
+      Email: cse@nitdelhi.ac.in 
+    </div>
+  </div>
+<div class="contact-info"><strong>VCR Lab Email: vcr@nitdelhi.ac.in</strong></div></center><br>
+<h3 align="center">Visual Computing & Robotics Lab © 2025 NIT Delhi. All rights reserved.</h3>
+</body>
+</html>
